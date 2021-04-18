@@ -4,6 +4,7 @@ import 'package:auth_repo/auth_repo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:pedantic/pedantic.dart';
 
 part 'app_event.dart';
 part 'app_state.dart';
@@ -29,7 +30,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     if (event is AppUserChanged) {
       yield _mapUserChangedToState(event, state);
     } else if (event is AppLogOutRequested) {
-      _authRepository.logout();
+      unawaited(_authRepository.logout());
     }
   }
 

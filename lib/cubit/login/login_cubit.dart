@@ -2,8 +2,7 @@ import 'package:auth_repo/auth_repo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:healthcare_service_app/models/email.dart';
-import 'package:healthcare_service_app/models/password.dart';
+import 'package:healthcare_service_app/models/models.dart';
 
 part 'login_state.dart';
 

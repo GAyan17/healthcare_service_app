@@ -38,12 +38,28 @@ class AppView extends StatelessWidget {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25.0),
             gapPadding: 2.0,
+            borderSide: BorderSide(
+              width: 1.0,
+              color: Colors.black,
+            ),
           ),
+          fillColor: Colors.white,
+          filled: true,
         ),
         buttonTheme: ButtonThemeData(
           minWidth: 10.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30.0),
+            side: BorderSide(
+              width: 1.0,
+              color: Colors.grey,
+            ),
+          ),
+        ),
+        cardTheme: CardTheme(
+          elevation: 8.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25.0),
           ),
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,

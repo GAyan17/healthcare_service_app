@@ -10,23 +10,20 @@ class User extends Equatable {
   final String? email;
   final String? name;
   final String? photo;
-  final int? age;
   final DateTime? dob;
 
   const User(
       {required this.id,
       required this.email,
       required this.name,
-      this.age,
       this.dob,
       this.photo});
 
   User copyWith({String? name, int? age, DateTime? dob, String? photo}) {
     return User(
-        id: this.id,
-        email: this.email,
+        id: id,
+        email: email,
         name: name ?? this.name,
-        age: age ?? this.age,
         dob: dob ?? this.dob,
         photo: photo ?? this.photo);
   }
@@ -42,5 +39,5 @@ class User extends Equatable {
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
   @override
-  List<Object?> get props => [email, id, name, photo, age, dob];
+  List<Object?> get props => [email, id, name, photo, dob];
 }

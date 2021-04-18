@@ -2,7 +2,7 @@ import 'package:auth_repo/auth_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../cubit/signup/signup_cubit.dart';
+import '../../cubit/cubit.dart';
 import 'signup_form.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -16,9 +16,6 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        color: Colors.purple,
         margin: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           border: Border.all(

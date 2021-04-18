@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 
-import '../../cubit/signup/signup_cubit.dart';
+import '../../cubit/cubit.dart';
 
 class SignUpForm extends StatelessWidget {
   @override
@@ -19,24 +19,24 @@ class SignUpForm extends StatelessWidget {
       },
       child: Align(
         alignment: const Alignment(0, -1 / 3),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(height: 8.0),
-            _NameInput(),
-            const SizedBox(height: 8.0),
-            _EmailInput(),
-            const SizedBox(height: 8.0),
-            _PasswordInput(),
-            const SizedBox(height: 8.0),
-            _ConfirmPasswordInput(),
-            const SizedBox(height: 8.0),
-            _AgeInput(),
-            const SizedBox(height: 8.0),
-            _DateOfBirthInput(),
-            const SizedBox(height: 8.0),
-            _SignUpButton(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 8.0),
+              _NameInput(),
+              const SizedBox(height: 8.0),
+              _EmailInput(),
+              const SizedBox(height: 8.0),
+              _PasswordInput(),
+              const SizedBox(height: 8.0),
+              _ConfirmPasswordInput(),
+              const SizedBox(height: 8.0),
+              _DateOfBirthInput(),
+              const SizedBox(height: 8.0),
+              _SignUpButton(),
+            ],
+          ),
         ),
       ),
     );
@@ -54,9 +54,9 @@ class _EmailInput extends StatelessWidget {
           onChanged: (email) => context.read<SignupCubit>().emailChanged(email),
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            labelText: 'email',
+            labelText: 'Email',
             helperText: '',
-            errorText: state.email.invalid ? 'invalid email' : null,
+            errorText: state.email.invalid ? 'Invalid Email' : null,
           ),
         );
       },
@@ -76,9 +76,9 @@ class _PasswordInput extends StatelessWidget {
               context.read<SignupCubit>().passwordChanged(password),
           obscureText: true,
           decoration: InputDecoration(
-            labelText: 'password',
+            labelText: 'Password',
             helperText: '',
-            errorText: state.password.invalid ? 'invalid password' : null,
+            errorText: state.password.invalid ? 'Invalid Password' : null,
           ),
         );
       },
@@ -101,10 +101,10 @@ class _ConfirmPasswordInput extends StatelessWidget {
               .confirmedPasswordChanged(confirmPassword),
           obscureText: true,
           decoration: InputDecoration(
-            labelText: 'confirm password',
+            labelText: 'Confirm Password',
             helperText: '',
             errorText: state.confirmedPassword.invalid
-                ? 'passwords do not match'
+                ? 'Passwords do not match'
                 : null,
           ),
         );
@@ -130,25 +130,6 @@ class _NameInput extends StatelessWidget {
   }
 }
 
-class _AgeInput extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<SignupCubit, SignupState>(
-      buildWhen: (previous, current) => previous.age != current.age,
-      builder: (context, state) {
-        return TextField(
-          onChanged: (value) =>
-              context.read<SignupCubit>().ageChanged(value as int),
-          keyboardType: TextInputType.number,
-          decoration: InputDecoration(
-            labelText: 'Age',
-          ),
-        );
-      },
-    );
-  }
-}
-
 class _DateOfBirthInput extends StatefulWidget {
   @override
   __DateOfBirthInputState createState() => __DateOfBirthInputState();
@@ -165,13 +146,13 @@ class __DateOfBirthInputState extends State<_DateOfBirthInput> {
         return Row(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Text(_selectedDate.toString()),
-            SizedBox(
-              width: 10,
-            ),
+            Text('Date of Birth: '),
+            const SizedBox(width: 10),
+            Text(_selectedDate.toString().split(':').first),
+            const SizedBox(width: 10),
             ElevatedButton(
               onPressed: () async {
-                final DateTime? pickedDate = await showDatePicker(
+                final pickedDate = await showDatePicker(
                     context: context,
                     initialDate: _selectedDate,
                     firstDate: DateTime(1950),
@@ -205,7 +186,6 @@ class _SignUpButton extends StatelessWidget {
             ? const CircularProgressIndicator()
             : ElevatedButton(
                 key: const Key('signUpForm_continue_raisedButton'),
-                child: const Text('SIGN UP'),
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -215,6 +195,7 @@ class _SignUpButton extends StatelessWidget {
                 onPressed: state.status.isValidated
                     ? () => context.read<SignupCubit>().signUpFormSubmitted()
                     : null,
+                child: const Text('SIGN UP'),
               );
       },
     );

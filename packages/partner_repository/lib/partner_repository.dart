@@ -1,7 +1,4 @@
 library partner_repository;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/models/partner.dart';
+export 'src/partner_repository.dart';

@@ -20,25 +20,36 @@ class AuthRepository {
   final firebase_auth.FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _firestore;
   final CacheClient _cacheClient;
+  late final User _user;
+
+  static const String userCollection = 'customers';
 
   @visibleForTesting
   static const userCacheKey = '__user_cache_key__';
 
   Stream<User> get user =>
       _firebaseAuth.authStateChanges().asyncMap((firebaseUser) async {
-        DocumentSnapshot documentSnapshot =
-            await _firestore.collection('users').doc(firebaseUser!.uid).get();
-        return User.fromJson(documentSnapshot.data()!);
+        if (firebaseUser != null) {
+          var documentSnapshot = await _firestore
+              .collection(userCollection)
+              .doc(firebaseUser.uid)
+              .get();
+          _user = User.fromJson(documentSnapshot.data()!);
+          return _user;
+        }
+        _user = User.nouser;
+        return _user;
       });
 
-  User get currentUser => _cacheClient.read(key: userCacheKey) ?? User.nouser;
+  // User get currentUser => _cacheClient.read(key: userCacheKey) ?? User.nouser;
+  User get currentUser => _user;
 
-  Future<void> signUp(
-      {required String email,
-      required String password,
-      required String name,
-      required DateTime dob,
-      required int age}) async {
+  Future<void> signUp({
+    required String email,
+    required String password,
+    required String name,
+    required DateTime dob,
+  }) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -47,11 +58,10 @@ class AuthRepository {
         id: firebaseUser.uid,
         email: firebaseUser.email,
         name: name,
-        age: age,
         dob: dob,
       );
       await _firestore
-          .collection('users')
+          .collection(userCollection)
           .doc(firebaseUser.uid)
           .set(newUser.toJson());
     } on Exception {

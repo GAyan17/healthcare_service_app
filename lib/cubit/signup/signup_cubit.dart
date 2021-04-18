@@ -2,14 +2,13 @@ import 'package:auth_repo/auth_repo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:healthcare_service_app/models/confirmed_password.dart';
-import 'package:healthcare_service_app/models/email.dart';
-import 'package:healthcare_service_app/models/password.dart';
+import 'package:healthcare_service_app/models/models.dart';
 
 part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
-  SignupCubit(this._authRepository) : super(const SignupState());
+  SignupCubit(this._authRepository)
+      : super(SignupState(name: '', dob: DateTime.now()));
 
   final AuthRepository _authRepository;
 
@@ -62,10 +61,6 @@ class SignupCubit extends Cubit<SignupState> {
     emit(state.copyWith(name: value));
   }
 
-  void ageChanged(int age) {
-    emit(state.copyWith(age: age));
-  }
-
   void dobChanged(DateTime dob) {
     emit(state.copyWith(dob: dob));
   }
@@ -78,8 +73,7 @@ class SignupCubit extends Cubit<SignupState> {
         email: state.email.value,
         password: state.password.value,
         name: state.name,
-        age: state.age!,
-        dob: state.dob!,
+        dob: state.dob,
       );
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
     } on Exception {
