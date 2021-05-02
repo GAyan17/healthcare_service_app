@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'models/partner.dart';
+import '../partner_repository.dart';
 
 class PartnerRepository {
   PartnerRepository({FirebaseFirestore? firestore})
@@ -10,11 +10,11 @@ class PartnerRepository {
 
   final FirebaseFirestore _firestore;
 
-  static const String partnerCollection = 'partners';
+  static const String _partnerCollection = 'partners';
 
   Stream<List<HealthCareServicePartner>> getPartners() {
     return _firestore
-        .collection(partnerCollection)
+        .collection(_partnerCollection)
         .snapshots()
         .map((querySnap) {
       return querySnap.docs.map((docSnap) {

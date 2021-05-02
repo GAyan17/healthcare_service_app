@@ -14,6 +14,10 @@ HealthCareServicePartner _$HealthCareServicePartnerFromJson(
     email: json['email'] as String,
     name: json['name'] as String,
     organization: json['organization'] as String,
+    provideEmergencyServices: json['provide_emergency_services'] as bool,
+    serviceTimeStart: json['service_time_start'] as String,
+    serviceTimeEnd: json['service_time_end'] as String,
+    serviceDays: json['service_days'] as String,
   );
 }
 
@@ -24,4 +28,8 @@ Map<String, dynamic> _$HealthCareServicePartnerToJson(
       'email': instance.email,
       'name': instance.name,
       'organization': instance.organization,
+      'provide_emergency_services': instance.provideEmergencyServices,
+      'service_time_start': instance.serviceTimeStart,
+      'service_time_end': instance.serviceTimeEnd,
+      'service_days': instance.serviceDays,
     };

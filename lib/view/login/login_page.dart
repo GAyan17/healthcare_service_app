@@ -16,10 +16,10 @@ class LoginPage extends StatelessWidget {
         // height: MediaQuery.of(context).size.height,
         margin: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.black,
-            style: BorderStyle.solid,
-            width: 0.95,
+          gradient: LinearGradient(
+            colors: [Colors.blue, Colors.white],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
         ),
         child: Padding(
