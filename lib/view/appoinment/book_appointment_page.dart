@@ -61,6 +61,7 @@ class _BookAppointmentState extends State<BookAppointment> {
             children: [
               SizedBox(height: 8.0),
               TextFormField(
+                controller: _symptomController,
                 decoration: InputDecoration(labelText: 'Symptoms'),
                 maxLines: 3,
                 validator: (value) {
@@ -72,6 +73,7 @@ class _BookAppointmentState extends State<BookAppointment> {
               ),
               SizedBox(height: 8.0),
               TextFormField(
+                controller: _descriptionController,
                 decoration: InputDecoration(labelText: 'Description'),
                 maxLines: 5,
                 validator: (value) => null,
@@ -82,6 +84,10 @@ class _BookAppointmentState extends State<BookAppointment> {
                       ? () async {
                           if (_formKey.currentState!.validate()) {
                             _tapped = true;
+
+                            print(_symptomController.text);
+                            print(_descriptionController.text);
+
                             await context
                                 .read<AppointmentCubit>()
                                 .createAppointment(

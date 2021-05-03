@@ -13,8 +13,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   AppBloc({required AuthRepository authRepository})
       : _authRepository = authRepository,
         super(authRepository.currentUser.isNotUser
-            ? AppState.authenticated(authRepository.currentUser)
-            : const AppState.unauthenticated()) {
+            ? Authenticated(authRepository.currentUser)
+            : const Unauthenticated()) {
     _userSubscription = _authRepository.user.listen(_onUserChanged);
   }
 
@@ -36,8 +36,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   AppState _mapUserChangedToState(AppUserChanged event, AppState state) {
     return event.user.isNotUser
-        ? AppState.authenticated(event.user)
-        : const AppState.unauthenticated();
+        ? Authenticated(event.user)
+        : const Unauthenticated();
   }
 
   @override

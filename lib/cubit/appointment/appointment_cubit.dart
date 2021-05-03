@@ -4,18 +4,23 @@ import 'package:appointment_repository/appointment_repository.dart';
 import 'package:auth_repo/auth_repo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:healthcare_service_app/bloc/bloc.dart';
 
 part 'appointment_state.dart';
 
 class AppointmentCubit extends Cubit<AppointmentState> {
-  AppointmentCubit(this._appointmentRepository, this.patientUser)
+  AppointmentCubit(this._appointmentRepository, this.appBloc)
       : super(AppointmentInitial()) {
-    _appointmentSubscription = _appointmentRepository
-        .getAppointments(patientUser.id)
-        .listen(_onAppointmentsRecieved);
+    if (appBloc.state is Authenticated) {
+      _patientUser = (appBloc.state as Authenticated).user;
+      _appointmentSubscription = _appointmentRepository
+          .getAppointments(_patientUser.id)
+          .listen(_onAppointmentsRecieved);
+    }
   }
 
-  final User patientUser;
+  final AppBloc appBloc;
+  late final User _patientUser;
   final AppointmentRepository _appointmentRepository;
   late final StreamSubscription _appointmentSubscription;
 
@@ -24,8 +29,16 @@ class AppointmentCubit extends Cubit<AppointmentState> {
       return appointment.appointmentStatus == 'Done' &&
           appointment.paymentStatus == 'Pending';
     }).toList();
+    var pendingFeedbacks = appointments
+        .where((appointment) =>
+            appointment.rating == null &&
+            appointment.appointmentStatus == 'Done' &&
+            appointment.paymentStatus == 'Done')
+        .toList();
     if (pendingPayments.isNotEmpty) {
       emit(PendingPaymentAppointments(pendingPayments));
+    } else if (pendingFeedbacks.isNotEmpty) {
+      emit(PendingFeedbacks(pendingFeedbacks));
     } else {
       emit(AppointmentsRecieved(appointments));
     }
@@ -41,9 +54,9 @@ class AppointmentCubit extends Cubit<AppointmentState> {
         id: DateTime.now().millisecondsSinceEpoch.toRadixString(16),
         partnerId: partnerId,
         partnerName: partnerName,
-        patientId: patientUser.id,
-        patientName: patientUser.name,
-        patientAge: calculateAge(patientUser.dob!),
+        patientId: _patientUser.id,
+        patientName: _patientUser.name,
+        patientAge: calculateAge(_patientUser.dob!),
         symptoms: symptoms,
         description: description,
         appointmentStatus: 'Pending',

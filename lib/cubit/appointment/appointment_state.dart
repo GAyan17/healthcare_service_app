@@ -26,3 +26,12 @@ class PendingPaymentAppointments extends AppointmentState {
   @override
   List<Object> get props => [appointments];
 }
+
+class PendingFeedbacks extends AppointmentState {
+  final List<Appointment> appointments;
+
+  const PendingFeedbacks(this.appointments);
+
+  @override
+  List<Object> get props => [appointments];
+}

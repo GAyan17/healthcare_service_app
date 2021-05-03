@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:healthcare_service_app/cubit/cubit.dart';
 
-class PendingPaymentList extends StatelessWidget {
+class PendingFeedbackList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AppointmentCubit, AppointmentState>(
       builder: (context, state) {
-        if (state is PendingPaymentAppointments) {
+        if (state is PendingFeedbacks) {
           return state.appointments.isNotEmpty
               ? ListView.builder(
                   itemCount: state.appointments.length,
@@ -30,20 +30,7 @@ class PendingPaymentList extends StatelessWidget {
                             Text(state.appointments[index].partnerName!),
                           ],
                         ),
-                        subtitle: Row(
-                          children: [
-                            Text(
-                              'On :',
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            Text(state.appointments[index].appointmentDateTime
-                                .toString())
-                          ],
-                        ),
-                        trailing: _CompletePaymentButton(
+                        subtitle: _RatingWidget(
                             appointment: state.appointments[index]),
                       ),
                     );
@@ -68,26 +55,48 @@ class PendingPaymentList extends StatelessWidget {
   }
 }
 
-class _CompletePaymentButton extends StatefulWidget {
+class _RatingWidget extends StatefulWidget {
   final Appointment appointment;
 
-  const _CompletePaymentButton({Key? key, required this.appointment})
-      : super(key: key);
+  const _RatingWidget({Key? key, required this.appointment}) : super(key: key);
 
   @override
-  __CompletePaymentButtonState createState() => __CompletePaymentButtonState();
+  __RatingWidgetState createState() => __RatingWidgetState();
 }
 
-class __CompletePaymentButtonState extends State<_CompletePaymentButton> {
+class __RatingWidgetState extends State<_RatingWidget> {
+  double _rating = 1.0;
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-        onPressed: () async {
-          print('Complete Payment');
-          await context
-              .read<AppointmentCubit>()
-              .paymentDone(appointment: widget.appointment);
+    return AlertDialog(
+      title: Text('Add FeedBack'),
+      content: Slider(
+        label: '$_rating',
+        max: 5.0,
+        min: 1.0,
+        divisions: 4,
+        onChanged: (double value) {
+          setState(() {
+            _rating = value;
+          });
         },
-        child: Text('Complete Payment'));
+        value: _rating,
+      ),
+      actions: [
+        ElevatedButton(
+            onPressed: () async {
+              await context.read<PartnerCubit>().updateRating(
+                  partnerId: widget.appointment.partnerId!, rating: _rating);
+
+              await context.read<AppointmentCubit>().addRating(
+                    appointment: widget.appointment,
+                    rating: _rating,
+                  );
+
+              Navigator.of(context).pop();
+            },
+            child: Text('Add'))
+      ],
+    );
   }
 }

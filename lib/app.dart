@@ -35,7 +35,7 @@ class App extends StatelessWidget {
               BlocProvider<AppointmentCubit>(
                 create: (context) => AppointmentCubit(
                   context.read<AppointmentRepository>(),
-                  context.read<AppBloc>().state.user,
+                  context.read<AppBloc>(),
                 ),
               ),
               BlocProvider<PartnerCubit>(
@@ -57,10 +57,15 @@ class AppView extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (_) =>
-            context.read<AppBloc>().state.status == AppStatus.authenticated
-                ? HomePage()
-                : LoginPage(),
+        '/': (_) => BlocBuilder<AppBloc, AppState>(
+              builder: (context, state) {
+                if (state is Authenticated) {
+                  return HomePage();
+                } else {
+                  return LoginPage();
+                }
+              },
+            ),
         SignUpPage.routeName: (_) => SignUpPage(),
       },
       theme: ThemeData(

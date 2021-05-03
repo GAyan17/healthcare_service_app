@@ -27,6 +27,9 @@ class PartnerCubit extends Cubit<PartnerState> {
   Future<void> updateRating(
       {required String partnerId, required double rating}) async {
     final partner = await _partnerRepository.getPartner(partnerId: partnerId);
+
+    print('Rating: $rating');
+
     var oneStar = partner.oneStarRatings!;
     var twoStar = partner.twoStarRatings!;
     var threeStar = partner.threeStarRatings!;
@@ -63,7 +66,7 @@ class PartnerCubit extends Cubit<PartnerState> {
 
     await _partnerRepository.updatePartner(
         partner: partner.copyWith(
-      avgRating: sum,
+      avgRating: double.parse(sum.toStringAsFixed(2)),
       oneStarRatings: oneStar,
       twoStarRatings: twoStar,
       threeStarRatings: threeStar,

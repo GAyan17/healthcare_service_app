@@ -40,9 +40,12 @@ class AppointmentList extends StatelessWidget {
                               ),
                             ),
                             Text(state.appointments[index].appointmentDateTime
-                                .toString())
+                                .toString()
+                                .split(':')[0])
                           ],
                         ),
+                        trailing: Text(
+                            'Appointment Status: ${state.appointments[index].appointmentStatus}'),
                       ),
                     );
                   },

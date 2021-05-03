@@ -12,9 +12,6 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       // backgroundColor: Colors.purple,
       body: Container(
-        // width: MediaQuery.of(context).size.width,
-        // height: MediaQuery.of(context).size.height,
-        margin: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [Colors.blue, Colors.white],
@@ -22,12 +19,19 @@ class LoginPage extends StatelessWidget {
             end: Alignment.bottomRight,
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: BlocProvider(
-            create: (_) => LoginCubit(context.read<AuthRepository>()),
-            child: LoginForm(),
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text('Welcome User'),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: BlocProvider(
+                create: (_) => LoginCubit(context.read<AuthRepository>()),
+                child: LoginForm(),
+              ),
+            ),
+          ],
         ),
       ),
     );
