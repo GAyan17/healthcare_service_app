@@ -38,6 +38,7 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     String? description,
   }) async {
     final appointment = Appointment(
+        id: DateTime.now().millisecondsSinceEpoch.toRadixString(16),
         partnerId: partnerId,
         partnerName: partnerName,
         patientId: patientUser.id,

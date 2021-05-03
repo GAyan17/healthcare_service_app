@@ -14,7 +14,8 @@ class AppointmentRepository {
   Future<void> createAppointment(Appointment appointment) async {
     await _firestore
         .collection(_appontmentCollection)
-        .add(appointment.toJson());
+        .doc(appointment.id)
+        .set(appointment.toJson());
   }
 
   Stream<List<Appointment>> getAppointments(String patientId) {
