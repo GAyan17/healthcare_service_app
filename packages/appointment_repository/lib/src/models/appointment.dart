@@ -17,6 +17,7 @@ class Appointment extends Equatable {
   final String? prescription;
   final String? appointmentStatus;
   final String? paymentStatus;
+  final double? rating;
 
   Appointment({
     this.id,
@@ -31,6 +32,7 @@ class Appointment extends Equatable {
     this.prescription,
     required this.appointmentStatus,
     required this.paymentStatus,
+    this.rating,
   });
 
   factory Appointment.fromJson(Map<String, dynamic> json) =>
@@ -52,5 +54,38 @@ class Appointment extends Equatable {
         appointmentStatus,
         paymentStatus,
         prescription,
+        rating,
       ];
+
+  Appointment copyWith({
+    String? id,
+    String? partnerId,
+    String? partnerName,
+    String? patientName,
+    String? patientId,
+    int? patientAge,
+    DateTime? appointmentDateTime,
+    String? symptoms,
+    String? description,
+    String? prescription,
+    String? appointmentStatus,
+    String? paymentStatus,
+    double? rating,
+  }) {
+    return Appointment(
+      id: id ?? this.id,
+      partnerId: partnerId ?? this.partnerId,
+      partnerName: partnerName ?? this.partnerName,
+      patientName: patientName ?? this.patientName,
+      patientId: patientId ?? this.partnerId,
+      patientAge: patientAge ?? this.patientAge,
+      appointmentDateTime: appointmentDateTime ?? this.appointmentDateTime,
+      symptoms: symptoms ?? this.symptoms,
+      description: description ?? this.description,
+      prescription: prescription ?? this.prescription,
+      appointmentStatus: appointmentStatus ?? this.appointmentStatus,
+      paymentStatus: paymentStatus ?? this.paymentStatus,
+      rating: rating ?? this.rating,
+    );
+  }
 }

@@ -59,4 +59,15 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     _appointmentSubscription.cancel();
     return super.close();
   }
+
+  Future<void> paymentDone({required Appointment appointment}) async {
+    await _appointmentRepository
+        .updateAppointment(appointment.copyWith(paymentStatus: 'Done'));
+  }
+
+  Future<void> addRating(
+      {required Appointment appointment, required double rating}) async {
+    await _appointmentRepository
+        .updateAppointment(appointment.copyWith(rating: rating));
+  }
 }

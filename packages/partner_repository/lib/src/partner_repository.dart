@@ -22,4 +22,20 @@ class PartnerRepository {
       }).toList();
     });
   }
+
+  Future<HealthCareServicePartner> getPartner(
+      {required String partnerId}) async {
+    final partnerDoc =
+        await _firestore.collection(_partnerCollection).doc(partnerId).get();
+
+    return HealthCareServicePartner.fromJson(partnerDoc.data()!);
+  }
+
+  Future<void> updatePartner(
+      {required HealthCareServicePartner partner}) async {
+    await _firestore
+        .collection(_partnerCollection)
+        .doc(partner.id)
+        .update(partner.toJson());
+  }
 }

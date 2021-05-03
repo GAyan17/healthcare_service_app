@@ -2,8 +2,6 @@ import 'package:appointment_repository/appointment_repository.dart';
 import 'package:auth_repo/auth_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:healthcare_service_app/view/appoinment/book_appointment_page.dart';
-import 'package:healthcare_service_app/view/partner/partner_page.dart';
 import 'package:healthcare_service_app/view/view.dart';
 import 'package:partner_repository/partner_repository.dart';
 

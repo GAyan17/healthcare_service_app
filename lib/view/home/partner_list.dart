@@ -20,6 +20,7 @@ class PartnerList extends StatelessWidget {
                 child: ListTile(
                   title: Text(state.partners[index].name),
                   subtitle: Text(state.partners[index].organization),
+                  trailing: Text('Rating: ${state.partners[index].avgRating}'),
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (_) =>
                           PartnerPage(partner: state.partners[index]))),

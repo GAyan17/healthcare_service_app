@@ -28,4 +28,11 @@ class AppointmentRepository {
       }).toList();
     });
   }
+
+  Future<void> updateAppointment(Appointment appointment) async {
+    await _firestore
+        .collection(_appontmentCollection)
+        .doc(appointment.id)
+        .update(appointment.toJson());
+  }
 }

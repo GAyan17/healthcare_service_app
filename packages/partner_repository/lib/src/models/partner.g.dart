@@ -18,6 +18,12 @@ HealthCareServicePartner _$HealthCareServicePartnerFromJson(
     serviceTimeStart: json['service_time_start'] as String,
     serviceTimeEnd: json['service_time_end'] as String,
     serviceDays: json['service_days'] as String,
+    avgRating: (json['avg_rating'] as num?)?.toDouble(),
+    oneStarRatings: json['one_star_ratings'] as int?,
+    twoStarRatings: json['two_star_ratings'] as int?,
+    threeStarRatings: json['three_star_ratings'] as int?,
+    fourStarRatings: json['four_star_ratings'] as int?,
+    fiveStarRatings: json['five_star_ratings'] as int?,
   );
 }
 
@@ -32,4 +38,10 @@ Map<String, dynamic> _$HealthCareServicePartnerToJson(
       'service_time_start': instance.serviceTimeStart,
       'service_time_end': instance.serviceTimeEnd,
       'service_days': instance.serviceDays,
+      'avg_rating': instance.avgRating,
+      'one_star_ratings': instance.oneStarRatings,
+      'two_star_ratings': instance.twoStarRatings,
+      'three_star_ratings': instance.threeStarRatings,
+      'four_star_ratings': instance.fourStarRatings,
+      'five_star_ratings': instance.fiveStarRatings,
     };

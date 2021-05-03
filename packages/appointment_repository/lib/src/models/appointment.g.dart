@@ -22,6 +22,7 @@ Appointment _$AppointmentFromJson(Map<String, dynamic> json) {
     prescription: json['prescription'] as String?,
     appointmentStatus: json['appointment_status'] as String?,
     paymentStatus: json['payment_status'] as String?,
+    rating: (json['rating'] as num?)?.toDouble(),
   );
 }
 
@@ -39,4 +40,5 @@ Map<String, dynamic> _$AppointmentToJson(Appointment instance) =>
       'prescription': instance.prescription,
       'appointment_status': instance.appointmentStatus,
       'payment_status': instance.paymentStatus,
+      'rating': instance.rating,
     };

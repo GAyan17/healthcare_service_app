@@ -11,7 +11,25 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.select((AppBloc bloc) => bloc.state.user);
-    return BlocBuilder<AppointmentCubit, AppointmentState>(
+    return BlocConsumer<AppointmentCubit, AppointmentState>(
+      listener: (context, state) {
+        if (state is PendingPaymentAppointments) {
+          showDialog(
+            context: context,
+            builder: (ctx) {
+              return AlertDialog(
+                title: Text('Pending Payments!'),
+                content: Text('Please Pay pending amount before continuing'),
+                actions: [
+                  ElevatedButton(
+                      onPressed: () => Navigator.of(ctx).pop(),
+                      child: Text('Ok'))
+                ],
+              );
+            },
+          );
+        }
+      },
       builder: (context, state) {
         if (state is PendingPaymentAppointments) {
           return Scaffold(
